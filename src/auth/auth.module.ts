@@ -5,15 +5,20 @@ import { LocalStrategy } from './passport/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './passport/session.serializer';
 import { AuthController } from './auth.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { RolesGuard } from './guards/roles.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-  imports: [
-    UserModule,
-    PassportModule.register({ session: true }),
+  imports: [UserModule, PassportModule.register({ session: true })],
+  providers: [
+    SessionSerializer,
+    AuthService,
+    LocalStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
-  providers: [SessionSerializer, AuthService, LocalStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

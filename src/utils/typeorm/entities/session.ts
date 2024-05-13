@@ -18,5 +18,3 @@ export class SessionEntity implements ISession {
 
   @DeleteDateColumn() destroyedAt: Date | null;
 }
-
-

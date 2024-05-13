@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
-import { Generated, Unique } from 'typeorm';
+import { Generated } from 'typeorm';
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 export class CreateUserDto {
@@ -29,4 +29,10 @@ export class CreateUserDto {
     one special character`,
   })
   password: string;
+
+  @IsString()
+  @IsNotEmpty({
+    message: 'Role is required',
+  })
+  role: string;
 }

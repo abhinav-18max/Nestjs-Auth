@@ -6,7 +6,6 @@ import { DataSource } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appdatasource } from './utils/appdatasource';
 
-
 @Module({
   imports: [
     TypeOrmModule.forRoot(Appdatasource.options),

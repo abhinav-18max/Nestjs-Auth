@@ -11,6 +11,8 @@ import { UserService } from '../user/user.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthenticatedGuard } from './guards/Authenticated.guard';
 import { Request, Response } from 'express';
+import { Roles } from './decorators/Roles.decorator';
+import { Role } from './roles.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -33,7 +35,7 @@ export class AuthController {
     console.log(req.user);
     res.send(req.user);
   }
-
+  @Roles(Role.Poc)
   @UseGuards(AuthenticatedGuard) @Get('profile') getProfile() {
     return 'profile';
   }

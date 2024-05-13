@@ -7,8 +7,8 @@ export const Appdatasource = new DataSource({
   port: 5432,
   password: '226939',
   username: 'postgres',
-  database: 'chat',
+  database: 'opengrad',
   synchronize: true,
-  logging: true,
+  logging: false,
   entities: entities,
 });

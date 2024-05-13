@@ -6,7 +6,6 @@ import * as session from 'express-session';
 import { SessionEntity } from './utils/typeorm/entities/session';
 import { TypeormStore } from 'connect-typeorm';
 import { Appdatasource } from './utils/appdatasource';
-import { getConnection, getRepository } from 'typeorm';
 
 async function bootstrap() {
   if (Appdatasource.isInitialized === false) await Appdatasource.initialize();

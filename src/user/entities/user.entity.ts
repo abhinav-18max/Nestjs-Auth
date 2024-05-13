@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'User' })
 export class User {
@@ -16,5 +10,5 @@ export class User {
 
   @Column({ type: 'varchar', length: 255 }) password: string;
 
- 
+  @Column({ type: 'varchar', length: 255 }) role: string;
 }
