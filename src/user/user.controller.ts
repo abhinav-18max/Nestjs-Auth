@@ -4,14 +4,14 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { InvitePocDto } from './dto/invite-poc.dto';
+import { InviteVolDto } from './dto/invite-vol.dto';
 
 @Controller('user')
 export class UserController {
@@ -41,5 +41,14 @@ export class UserController {
 
   @Delete(':id') remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @Post('pocinvite')
+  createpocinvite(@Body() invitepocDto: InvitePocDto) {
+    return this.userService.createPocInvite(invitepocDto);
+  }
+  @Post('volinvite')
+  createvolinvite(@Body() invitevolDto: InviteVolDto) {
+    return this.userService.createVolInvite(invitevolDto);
   }
 }

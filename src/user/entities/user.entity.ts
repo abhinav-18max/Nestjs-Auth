@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Relation } from './relation.entity';
 
 @Entity({ name: 'User' })
 export class User {
@@ -11,4 +12,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 }) password: string;
 
   @Column({ type: 'varchar', length: 255 }) role: string;
+
+  @ManyToOne(() => Relation, (relation) => relation.vol)
+  relation: Relation;
 }

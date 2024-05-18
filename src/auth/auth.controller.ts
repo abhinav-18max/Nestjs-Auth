@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -13,10 +14,16 @@ import { AuthenticatedGuard } from './guards/Authenticated.guard';
 import { Request, Response } from 'express';
 import { Roles } from './decorators/Roles.decorator';
 import { Role } from './roles.enum';
+import { MagicloginStrategy } from './passport/magiclogin.strategy';
+import { AuthGuard } from '@nestjs/passport';
+import { PasswordSetDto } from '../user/dto/passwordset.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private strategy: MagicloginStrategy,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -36,7 +43,28 @@ export class AuthController {
     res.send(req.user);
   }
   @Roles(Role.Poc)
-  @UseGuards(AuthenticatedGuard) @Get('profile') getProfile() {
+  @UseGuards(AuthenticatedGuard)
+  @Get('profile')
+  getProfile() {
     return 'profile';
+  }
+
+  @Post('profileset')
+  async Send(@Req() req: Request, @Res() res: Response) {
+    const resp = await this.userService.checkEmail(req.body.destination);
+    if (resp == null) {
+      return res.status(230).json({ message: 'Email does not exist' });
+    }
+    return this.strategy.send(req, res);
+  }
+
+  @UseGuards(AuthGuard('magiclogin'))
+  @Post('login/callback')
+  async callback(@Req() req, @Body() PasswordSetDto: PasswordSetDto) {
+    if (req.user.spec === 'invite-poc') {
+      console.log(req.user);
+      const res= await this.userService.createUserPoc(req.user.email, PasswordSetDto);
+      console.log(res);
+    }
   }
 }
